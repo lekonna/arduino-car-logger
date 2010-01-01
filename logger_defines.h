@@ -31,6 +31,7 @@
 #define LO_FREQ 3
 #define TRUE 1
 #define FALSE 0
+#define TRIONIC_VERSION 7
 
 volatile int timer_counter;
 /* struct to save the current settings */
