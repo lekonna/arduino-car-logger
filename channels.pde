@@ -150,46 +150,61 @@ void print_header()
   Serial.println();
 }
 
+/* high freq interrupt handler proxies */
 void hi_freq1() 
 {
-  volatile int channel= hi_freq_channels[0];
-  channels[channel].hi_freq_counter++;
-//  Serial.println("hifreqirQ");
-  if( channels[channel].hi_freq_counter > 100 )
-  {
-  volatile unsigned long t_now = micros();
-  volatile float t_delta = t_now-channels[channel].trig_time;
-  channels[channel].trig_time = t_now;
-  volatile float freq = 100/(t_delta/1000000);
-  channels[channel].hi_freq_counter = 0;
-  if (channels[channel].val) {
-
-      channels[channel].value = linear_interpolate_f(int(freq),
-                                     channels[channel].val,
-                                     channels[channel].ref,channels[channel].refsize);
-    } else channels[channel].value = int(freq);
-}
+  hi_freq_handler(hi_freq_channels[0]);
 }
 
 void hi_freq2() 
 {
-  volatile int channel= hi_freq_channels[1];
-  channels[channel].hi_freq_counter++;
-  
+   hi_freq_handler(hi_freq_channels[0]);
 }
 
 void hi_freq3() 
 {
-  volatile int channel= hi_freq_channels[2];
-  channels[channel].hi_freq_counter++;
+  hi_freq_handler(hi_freq_channels[0]);
 }
 
+/* high freq interrupt handler function */
+void hi_freq_handler( volatile int channel )
+{
+  channels[channel].hi_freq_counter++;
+//  Serial.println("hifreqirQ");
+  if( channels[channel].hi_freq_counter > 100 )
+  {
+    volatile unsigned long t_now = micros();
+    volatile float t_delta = t_now-channels[channel].trig_time;
+    channels[channel].trig_time = t_now;
+    volatile float freq = 100/(t_delta/1000000);
+    channels[channel].hi_freq_counter = 0;
+    if (channels[channel].val) {
+      channels[channel].value = linear_interpolate_f(int(freq),
+                                     channels[channel].val,
+                                     channels[channel].ref,channels[channel].refsize);
+    } else channels[channel].value = int(freq);
+  }
+}
+
+/* Low frequency interrupt proxies */
 
 void lo_freq1()
 {
+  lo_freq_handler(lo_freq_channels[0]);
+}
+void lo_freq2()
+{
+  lo_freq_handler(lo_freq_channels[1]);
+}
+void lo_freq3()
+{
+  lo_freq_handler(lo_freq_channels[2]);
+}
+/* low freq interrupt handler */
+void lo_freq_handler( volatile int channel )
+{
   volatile unsigned long t_now = micros();
   volatile float t_delta = t_now-channels[lo_freq_channels[0]].trig_time;
-  volatile int channel= lo_freq_channels[0];
   channels[channel].trig_time = t_now;
   volatile float freq = 1/(t_delta/1000000);
 
@@ -200,19 +215,3 @@ void lo_freq1()
     } else channels[channel].value = int(freq);
 }
 
-void lo_freq2()
-{
-  volatile unsigned long t_now = millis();
-  volatile unsigned long t_delta = channels[lo_freq_channels[1]].trig_time-t_now;
-  channels[lo_freq_channels[1]].trig_time = t_now;
-  volatile float freq = 1/(float(t_delta)/1000);
-  channels[lo_freq_channels[1]].value = int(t_delta);
-}
-void lo_freq3()
-{
-  volatile unsigned long t_now = millis();
-  volatile unsigned long t_delta = channels[lo_freq_channels[2]].trig_time-t_now;
-  channels[lo_freq_channels[2]].trig_time = t_now;
-  volatile float freq = 1/(t_delta/1000);
-  channels[lo_freq_channels[2]].value = int(t_delta);
-}
