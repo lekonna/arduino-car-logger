@@ -1,4 +1,24 @@
+/*
+    Logger - logger_defines.h
+    The car data logging software for Arduino Mega board
+    Copyright: Janne Kotka 2010
 
+    This file is part of Logger.
+
+    Logger is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Logger is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Logger.  If not, see <http://www.gnu.org/licenses/>.
+     
+*/
 // size of the averaging filter, must be 2,4,8,16 
 #define FILTER_SIZE 8
 
@@ -12,7 +32,7 @@
 #define TRUE 1
 #define FALSE 0
 
-
+volatile int timer_counter;
 /* struct to save the current settings */
 
 struct perm_data {
@@ -30,11 +50,15 @@ struct channel {
   char priority; // channel priority 0-4
   char filter;   // Do we filter or not?
   int input;     // the input pin
+  char name[64];
   /* value is where the current measuerement value is stored */
-  int value;     // current measured value
+  volatile int value;     // current measured value
   
   /* these are for internal usage no need to fill */
   int filt[FILTER_SIZE];   // filter buffer
   int filt_i;    // filter_index;
-
+  int active;
+  int refsize;
+  volatile unsigned long trig_time;
+  volatile unsigned long hi_freq_counter;
 };
