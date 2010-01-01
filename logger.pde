@@ -65,20 +65,13 @@ void setup() {
   read_data( &st );
 
   Serial.begin( 9600 );
-  /*
-  TCCR2A = 0;
-  TCCR2B = 1 << CS22 | 1 << CS21 | 1 << CS20 ; // divider 1024
-  TIMSK2 = 1<<TOIE2; // enable overflow
-  TCNT2 = 0; // reset interrupt
-  */
+ 
   /* seting up the channels
   setup_channel("name",ch,pin,type,    pri,ref_table_y,ref_table_x ,filter*/
   setup_channel("AFR", 0, 0  ,VOLT    ,0  ,AFR_values ,AFR_voltages,TRUE,sizeof(AFR_values)/sizeof(int));
   setup_channel("RPM", 1,18  ,LO_FREQ ,0  ,RPM_values ,RPM_freq    ,FALSE,sizeof(RPM_values)/sizeof(int));
-//  setup_channel("RPM", 1,18  ,LO_FREQ ,0  ,0 ,0    ,FALSE);
-//  setup_channel("Maf", 2,2   ,HI_FREQ ,0  ,0          ,0           ,FALSE);
   setup_channel("Maf", 2, 2  ,HI_FREQ ,0 , maf_air  , maf_freq     ,FALSE,sizeof(maf_air)/sizeof(int));
-  int free = memoryTest();
+
   print_header();
   delay(1000);
   

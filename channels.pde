@@ -59,7 +59,7 @@ int setup_channel(char *name,int number,char input,char type, char priority, int
     hi_freq_channels[hi_freq_counter] = number;
     switch ( hi_freq_counter ) {
       case 0:
-//        Serial.println("attaching interrupt to hi_freq1");
+
         attachInterrupt(irq_pin_translate[input],hi_freq1,RISING);    
         break;
       case 1:
@@ -75,7 +75,7 @@ int setup_channel(char *name,int number,char input,char type, char priority, int
     lo_freq_channels[lo_freq_counter] = number;
     switch ( lo_freq_counter ) {
       case 0:
-//        Serial.println("attaching interrupt to lo_freq1");
+
         attachInterrupt(irq_pin_translate[input],lo_freq1,RISING);    
         break;
       case 1:
@@ -139,7 +139,7 @@ void print_channels()
 
 void print_header()
 {
-  // print timestamp
+
   Serial.print("timestamp");
   for (int i = 0 ; i < 8 ; i++ ) {
       if (channels[i].active) {
@@ -170,7 +170,7 @@ void hi_freq3()
 void hi_freq_handler( volatile int channel )
 {
   channels[channel].hi_freq_counter++;
-//  Serial.println("hifreqirQ");
+
   if( channels[channel].hi_freq_counter > 100 )
   {
     volatile unsigned long t_now = micros();

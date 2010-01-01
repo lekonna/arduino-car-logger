@@ -75,13 +75,10 @@ int linear_interpolate_f(int ad, int* values, int* ref_points,int refsize )
   /* slope = (y1 - y0) / (x1 - x0)
      value = y0 + (x-x0) * slope  
      
-     multiplying the values by 128 to stay within integer
-     domain with the division      
    */
-//  Serial.println((values[index]-values[index-1])<<7);
+
   slope  = float((values[index]-values[index-1])) / float((ref_points[index]-ref_points[index-1]));
-//  Serial.println(slope);
-  /* dividing by 128 to get the real numbers */
+
   value =  values[index-1] + ((slope * (ad-ref_points[index-1])));
 
   return value;
