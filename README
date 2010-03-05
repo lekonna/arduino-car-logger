@@ -1,0 +1,13 @@
+
+Arduino Car Logger
+
+Arduino Car logger is a sofware build for the 
+Arduino Mega board to log different data from automotive
+environment. 
+
+The idea is to read bunch of AD 10-bit voltage values and
+bunch of frequency values from multitude of sensors and then
+convert that to a human understandable format (eg, real values)
+which will then be printed out via the serial interfaces and
+displayed on the lcd display.
+
