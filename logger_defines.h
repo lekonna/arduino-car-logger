@@ -54,6 +54,8 @@ struct channel {
   char name[64];
   /* value is where the current measuerement value is stored */
   volatile int value;     // current measured value
+  volatile int max_value;
+  volatile int min_value;
   
   /* these are for internal usage no need to fill */
   int filt[FILTER_SIZE];   // filter buffer

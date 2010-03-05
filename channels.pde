@@ -120,7 +120,9 @@ void read_channels()
     
     if(channels[i].filter) value = channel_filter(value,&channels[i]);
 
-    channels[i].value = value;           
+    channels[i].value = value;
+    if( value > channels[i].max_value ) channels[i].max_value = value;    
+    if( value < channels[i].min_value ) channels[i].min_value = value;
   }
 }
 
