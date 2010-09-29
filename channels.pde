@@ -211,9 +211,9 @@ void lo_freq_handler( volatile int channel )
   volatile float freq = 1/(t_delta/1000000);
 
   if (channels[channel].val) {
-      channels[channel].value = linear_interpolate_f(int(freq),
+      channels[channel].value = linear_interpolate_f(int(freq*10),
                                      channels[channel].val,
                                      channels[channel].ref,channels[channel].refsize);
-    } else channels[channel].value = int(freq);
+    } else channels[channel].value = int(freq*10);
 }
 

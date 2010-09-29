@@ -20,7 +20,7 @@
      
 */
 // size of the averaging filter, must be 2,4,8,16 
-#define FILTER_SIZE 8
+#define FILTER_SIZE 4
 
 /* macro to help type in the reference values for the channel look-up tables */
 
